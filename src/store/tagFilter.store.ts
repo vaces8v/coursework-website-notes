@@ -1,20 +1,19 @@
 import {create, StateCreator} from "zustand";
-import {RootResNotes} from "@/types/note.types";
 
-interface notesState {
-    notes: RootResNotes[];
+interface tagFilterState {
+    tagsFilter: number[];
 }
 
-interface notesActions {
-    setNotes: (wallpaperState: RootResNotes[]) => void;
+interface tagFilterActions {
+    setTagsFilter: (value: number[]) => void;
 }
 
-const slice: StateCreator<notesState & notesActions> = (setState) => ({
-    notes: [],
-    setNotes: (value: RootResNotes[]) => {
-        setState({notes: value});
+const slice: StateCreator<tagFilterState & tagFilterActions> = (setState) => ({
+    tagsFilter: [],
+    setTagsFilter: (value: number[]) => {
+        setState({tagsFilter: value});
     }
 })
 
 
-export const useNotesStore = create<notesState & notesActions>(slice);
+export const useTagFilterStore = create<tagFilterState & tagFilterActions>(slice);

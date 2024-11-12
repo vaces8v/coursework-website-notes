@@ -1,42 +1,39 @@
 import {prisma} from "@/client-prisma";
-import {NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
+import jwt from "jsonwebtoken";
 import argon2 from "argon2";
 
-export async function GET() {
-    const users = await prisma.user.findMany()
-
-    return NextResponse.json(users)
-}
-
-
-export async function POST(req) {
+export async function POST(req: NextRequest) {
     try {
-        const {email, name, lastName, password } = await req.json();
+        const {email, password} = await req.json();
+        const user = await prisma.user.findUnique({where: {email}});
 
-        const existingCategory = await prisma.user.findFirst({
-            where: {
-                "email": email,
-            }
-        });
+        console.log("User found:", user);
 
-        if (existingCategory) {
-            return NextResponse.json({
-                ok: false,
-                message: 'Пользователь с таким email!',
-            });
+        if (!user) {
+            return NextResponse.json({ok: false, error: "Пользователь не найден"});
         }
 
-        const newUser = await prisma.user.create({
-            data: {
-                email,
-                name,
-                lastName,
-                passwordHash: await argon2.hash(password),
-            }
-        });
+        // @ts-ignore
+        const passwordMatches = await argon2.verify(user.passwordHash, password);
+        if (!passwordMatches) {
+            return NextResponse.json({ok: false, error: "Неверный логин или пароль"});
+        }
 
-        return NextResponse.json({ ok: true, message: "Пользователь создан" });
-    } catch (e) {
-        return NextResponse.json({ ok: false, error: e.message });
+        // @ts-ignore
+        const token = jwt.sign({userId: user.id}, "secre123");
+
+// Логирование токена для отладки
+        console.log("Generated token:", token);
+
+// Убедитесь, что токен действительно существует
+        if (!token) {
+            return NextResponse.json({ok: false, error: "Ошибка генерации токена"});
+        }
+
+        return  NextResponse.json({token});
+    } catch (error: unknown) {
+        return NextResponse.json({ok: false, message: (error as Error).message});
     }
 }
+

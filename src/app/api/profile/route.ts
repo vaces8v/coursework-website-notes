@@ -1,42 +1,24 @@
-import {prisma} from "@/client-prisma";
-import {NextResponse} from "next/server";
-import argon2 from "argon2";
+import { NextRequest, NextResponse } from 'next/server';
+import jwt from 'jsonwebtoken';
+import { prisma } from "@/client-prisma";
 
-export async function GET() {
-    const users = await prisma.user.findMany()
+export async function POST(req: NextRequest) {
+    const { token } = await req.json();
+    if (!token) {
+        return NextResponse.redirect("http://localhost:3000/login");
+    }
 
-    return NextResponse.json(users)
-}
-
-
-export async function POST(req) {
     try {
-        const {email, name, lastName, password } = await req.json();
+        const decoded = await jwt.verify(token, "secre123");
+        // @ts-ignore
+        const userId = decoded.userId;
 
-        const existingCategory = await prisma.user.findFirst({
-            where: {
-                "email": email,
-            }
+        const profile = await prisma.user.findUnique({
+            where: { id: userId }
         });
 
-        if (existingCategory) {
-            return NextResponse.json({
-                ok: false,
-                message: 'Пользователь с таким email!',
-            });
-        }
-
-        const newUser = await prisma.user.create({
-            data: {
-                email,
-                name,
-                lastName,
-                passwordHash: await argon2.hash(password),
-            }
-        });
-
-        return NextResponse.json({ ok: true, message: "Пользователь создан" });
-    } catch (e) {
-        return NextResponse.json({ ok: false, error: e.message });
+        return NextResponse.json(profile);
+    } catch (error) {
+        return NextResponse.redirect(new URL("/login", req.url));
     }
 }

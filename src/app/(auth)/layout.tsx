@@ -1,21 +1,21 @@
-import type { Metadata } from "next";
-import {Menu} from "@/components/shared/Menu/Menu";
+'use client'
 
-export const metadata: Metadata = {
-    title: "Записная Книжка",
-    description: "Приложение для хранения заметок",
-};
+import {useWallpaperStore} from "@/store/wallpaper.store";
 
-export default function AppLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+    const {value} = useWallpaperStore()
+
   return (
-      <main className="flex flex-row justify-center w-full h-screen bg-fon bg-cover">
-          <div className="flex relative flex-row xl:ml-[150px] xl:w-[1024px] ml-[50px] w-[720px] h-full">
-              <Menu/>
-              {children}
+      <main className={`flex flex-row justify-center w-full h-screen bg-cover ${value}`}>
+          <div className="flex relative flex-row justify-center items-center xl:w-[1024px] w-[720px] h-full">
+              <div className="mb-[100px] px-[30px] py-[20px] flex flex-col w-[500px] h-[500px] bg-white-900 overflow-hidden shrink-0 rounded-2xl bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-100 border-1 border-gray-100/50">
+                  {children}
+              </div>
           </div>
       </main>
   );

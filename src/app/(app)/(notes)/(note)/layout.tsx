@@ -3,16 +3,38 @@
 import {SearchInput} from "@/components/shared/SearchInput/SearchInput";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {usePathname, useRouter} from "next/navigation";
-import {ArrowLeft} from "lucide-react";
+import {ArrowLeft, CircleX, Cross, CrosshairIcon} from "lucide-react";
 import {motion} from "framer-motion";
+import {Button, Select, SelectItem} from "@nextui-org/react";
+import React, {useEffect, useState} from "react";
+import {ITag} from "@/types/tag.types";
+import {Api} from "@/service/api-client";
+import {Badge} from "@/components/ui/badge";
+import {useTagFilterStore} from "@/store/tagFilter.store";
 
 export default function NoteLayout({
                                        children,
                                    }: Readonly<{
     children: React.ReactNode;
 }>) {
+
     const path = usePathname(),
-        router = useRouter();
+        router = useRouter(),
+        [tags, setTags] = useState<ITag[]>([]),
+        [selectedTags, setSelectedTags] = useState<string>(''),
+        {setTagsFilter, tagsFilter} = useTagFilterStore()
+
+    const handleSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedTags(e.target.value);
+    };
+
+    useEffect(() => {
+        setTagsFilter(selectedTags.split(",").map(Number).slice(1))
+    }, [selectedTags]);
+
+    useEffect(() => {
+        Api.tag.getAll().then(data => setTags(data))
+    }, [])
 
     return (
         <div
@@ -46,7 +68,117 @@ export default function NoteLayout({
                         className="text-white text-3xl">Заметки
                     </motion.h1>
                 </div>
-                <SearchInput/>
+                <div className="flex flex-row w-[580px] items-center justify-end space-x-3">
+                    <div>
+                        <motion.div
+                            className="flex items-center"
+                            initial={{
+                                scale: 0,
+                                display: "none",
+                            }}
+                            animate={{
+                                scale: path === "/" ? 1 : 0,
+                                display: path === "/" ? "flex" : "none",
+                            }}
+                        >
+                            <motion.button
+                                initial={{
+                                    height: 0,
+                                    display: "none",
+                                    overflow: "hidden",
+                                    scale: 0,
+                                    rotate: "360deg"
+                                }}
+                                animate={{
+                                    height: "auto",
+                                    display: tagsFilter.length > 0 ? "block" : "none",
+                                    overflow: tagsFilter.length > 0 ? "visible" : "hidden",
+                                    scale: tagsFilter.length > 0 ? 1 : 0,
+                                    rotate: tagsFilter.length > 0 ? "0deg" : "360deg"
+                                }}
+                                className="mt-[10px] mr-[10px] bg-transparent border-none rounded-full">
+                                <CircleX onClick={() => setSelectedTags('')} color="#FFF" size={24} strokeWidth={1.75}/>
+                            </motion.button>
+
+                            <Select
+                                items={tags}
+                                placeholder="Фильтер тегов"
+                                aria-label="filter-tag"
+                                selectionMode="multiple"
+                                variant="bordered"
+                                showScrollIndicators
+                                selectedKeys={selectedTags?.split(',')}
+                                onChange={handleSelectionChange}
+                                classNames={{
+                                    label: "group-data-[filled=true]:-translate-y-5",
+                                    trigger: "min-h-[30px] w-[300px] white-select text-white focus:border-white outline-white outline-offset-[-2px] border-white placeholder:text-white",
+                                    mainWrapper: "items-end border-white",
+                                    listboxWrapper: "max-h-[400px]",
+                                    value: "flex space-x-1 text-white border-white focus:text-white",
+                                    base: "text-white focus:text-white hover:text-white",
+                                    listbox: "text-white focus:text-white hover:text-white",
+                                    innerWrapper: "text-white focus:text-white hover:text-white border-white focus:border-white",
+                                }}
+                                listboxProps={{
+                                    itemClasses: {
+                                        base: [
+                                            "rounded-md",
+                                            "text-white",
+                                            "transition-opacity",
+                                            "data-[hover=true]:text-white",
+                                            "data-[hover=true]:bg-transparent",
+                                            "dark:data-[hover=true]:bg-transparent",
+                                            "dark:data-[hover=true]:border-white",
+                                            "data-[selectable=true]:focus:bg-transparent",
+                                            "data-[selectable=true]:focus:border-white",
+                                            "data-[pressed=true]:opacity-70",
+                                            "data-[focus-visible=true]:ring-white",
+                                        ],
+                                    },
+                                }}
+                                popoverProps={{
+                                    classNames: {
+                                        base: "before:bg-white",
+                                        arrow: "text-white",
+                                        content: "p-0 border-small border-divider bg-[rgba(0,0,0,0.3)]",
+                                    },
+                                }}
+                                renderValue={(items) => {
+                                    return items.map((item) => (
+                                        <span
+                                            key={item.key}
+                                            className="text-white rounded-xl px-2"
+                                            style={{backgroundColor: item.data ? item.data.color : "#FFF"}}>
+                                    {item.textValue}
+                                </span>
+                                    ));
+                                }}
+                                className="max-w-xs bg-transparent white-select mt-[10px]"
+                            >
+                                {(tag) => (
+                                    <SelectItem key={tag.id} textValue={tag.name}>
+                                        <div className="flex justify-between items-center">
+                                            <div className="flex gap-2 items-center">
+                                                <div className="flex flex-col">
+                                                    <Badge style={{backgroundColor: tag.color}}>{tag.name}</Badge>
+                                                </div>
+                                            </div>
+                                            <Button
+                                                className="border-small mr-0.5 font-medium shadow-small"
+                                                radius="full"
+                                                size="sm"
+                                                variant="bordered"
+                                            >
+                                                Добавить
+                                            </Button>
+                                        </div>
+                                    </SelectItem>
+                                )}
+                            </Select>
+                        </motion.div>
+                    </div>
+                    <SearchInput/>
+                </div>
             </header>
             <ScrollArea className="flex flex-col items-center mx-[2px] mt-[70px] mb-[5px] h-full">
                 <section className="relative flex flex-col mx-[10px] w-[97%] h-full">

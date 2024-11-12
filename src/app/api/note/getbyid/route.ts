@@ -1,14 +1,13 @@
-import { NextResponse, NextRequest } from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 import { prisma } from "@/client-prisma";
 
-export async function GET(req: NextRequest) {
-    const { id } = req.nextUrl.searchParams;
+export async function POST(req: NextRequest) {
+    const { id } = await req.json();
+    const idNote = Number(id);
 
-    if (!id || isNaN(Number(id))) {
+    if (!idNote || isNaN(Number(idNote))) {
         return NextResponse.json({ ok: false, message: "Invalid ID" });
     }
-
-    const idNote = Number(id);
 
     try {
         const note = await prisma.notes.findUnique({

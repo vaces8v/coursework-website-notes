@@ -43,10 +43,9 @@ export default function NoteLayout({
                             marginLeft: path !== '/' ? 10 : 0,
                             translateX: path !== '/' ? 0 : -30
                         }}
-                        className="text-white text-3xl">Заметки
+                        className="text-white text-3xl">Создать заметку
                     </motion.h1>
                 </div>
-                <SearchInput/>
             </header>
             <ScrollArea className="flex flex-col items-center mx-[2px] mt-[70px] mb-[5px] h-full">
                 <section className="relative flex flex-col mx-[10px] w-[97%] h-full">

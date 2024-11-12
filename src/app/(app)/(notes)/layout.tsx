@@ -1,31 +1,23 @@
 'use client'
-import { getCookie } from 'cookies-next'
-import {Menu} from "@/components/shared/Menu/Menu";
-import {useRouter} from "next/navigation";
-import {useEffect} from "react";
 
-export default function AppLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
+import {Button} from "@nextui-org/button";
+import {Pencil} from "lucide-react";
+import {useRouter} from "next/navigation";
+
+export default function NotesLayout({
+                                        children,
+                                    }: Readonly<{
+    children: React.ReactNode;
 }>) {
 
     const router = useRouter();
 
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if(!token) {
-            router.push("/login");
-        }
-    }, []);
-
-
     return (
-      <main className="flex flex-row justify-center w-full h-screen bg-fon bg-cover">
-          <div className="flex relative flex-row xl:ml-[150px] xl:w-[1024px] ml-[50px] w-[720px] h-full">
-              <Menu/>
-              {children}
-          </div>
-      </main>
-  );
+        <>
+            {children}
+            <Button title="Создать заметку" onPress={() => router.push("/create")} onClick={() => router.push("/create")} isIconOnly variant="flat" size="lg" className="absolute right-[50px] bottom-[80px]">
+                <Pencil color="white" fontSize="large" size={24} strokeWidth={2}/>
+            </Button>
+        </>
+    );
 }

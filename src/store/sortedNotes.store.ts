@@ -1,20 +1,20 @@
 import {create, StateCreator} from "zustand";
 import {RootResNotes} from "@/types/note.types";
 
-interface wallpaperState {
-    notes: RootResNotes[];
+interface notesState {
+    notesSorted: RootResNotes[];
 }
 
-interface wallpaperActions {
-    setNotes: (wallpaperState: RootResNotes[]) => void;
+interface notesActions {
+    setNotesSorted: (value: RootResNotes[]) => void;
 }
 
-const sliceWallpaper: StateCreator<wallpaperState & wallpaperActions> = (setState) => ({
-    notes: [],
-    setNotes: (value: RootResNotes[]) => {
-        setState({notes: value});
+const slice: StateCreator<notesState & notesActions> = (setState) => ({
+    notesSorted: [],
+    setNotesSorted: (value: RootResNotes[]) => {
+        setState({notesSorted: value});
     }
 })
 
 
-export const useNotesStore = create<wallpaperState & wallpaperActions>(sliceWallpaper);
+export const useSortedNotesStore = create<notesState & notesActions>(slice);
