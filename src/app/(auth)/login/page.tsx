@@ -19,9 +19,15 @@ export default function Login() {
             return;
         }
        await Api.user.login({email, password})
-           .then((data) => localStorage.setItem("token", data.token))
-           .then(() => enqueueSnackbar("Успешный вход!", {variant: "success"}))
-           .finally(() => router.push("/"));
+           .then((data) => {
+               if(!data.token) {
+                   enqueueSnackbar("Неверный логин или пароль!", {variant: "error"});
+                   return
+               }
+               localStorage.setItem("token", data.token)
+               enqueueSnackbar("Успешный вход!", {variant: "success"})
+               router.push("/")
+           })
     }
 
     return (

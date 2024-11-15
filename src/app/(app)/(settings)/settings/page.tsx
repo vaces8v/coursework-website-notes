@@ -4,16 +4,26 @@ import React from 'react';
 import Image from 'next/image';
 import {useWallpaperStore} from "@/store/wallpaper.store";
 import {Button} from "@nextui-org/button";
-import {LogOut} from "lucide-react";
+import {LogOut, WandSparkles} from "lucide-react";
 import {useRouter} from "next/navigation";
+import {useAnimateStore} from "@/store/animated.store";
 
 export default function Setting() {
     const {changeWallpaper} = useWallpaperStore()
+    const {disabledAnimate, setDisabledAnimate} = useAnimateStore()
     const router = useRouter()
 
     function logout() {
         localStorage.removeItem("token");
         router.push('/login')
+    }
+
+    function handleAnimate() {
+        if(disabledAnimate) {
+            setDisabledAnimate(false)
+        } else {
+            setDisabledAnimate(true)
+        }
     }
 
     return (
@@ -92,7 +102,10 @@ export default function Setting() {
                     />
                 </button>
             </div>
-            <Button onClick={logout} variant="shadow" color="danger" endContent={<LogOut size={22} color={"#FFF"} strokeWidth={1.75}/>} className="text-white text-lg mt-[10px] w-[230px]">Выйти из аккаунта</Button>
+            <div className="flex space-x-3 mt-[20px]">
+                <Button onClick={logout} variant="shadow" color="danger" endContent={<LogOut size={22} color={"#FFF"} strokeWidth={1.75}/>} className="text-white text-lg mt-[10px] w-[230px]">Выйти из аккаунта</Button>
+                <Button onClick={handleAnimate} variant="flat" color={disabledAnimate ? "warning" : "default"} endContent={<WandSparkles size={22} color={"#FFF"} strokeWidth={1.75}/>} className="text-white text-lg mt-[10px] w-[240px]">{disabledAnimate ? "Включить анимации" : "Отключить анимации"}</Button>
+            </div>
         </div>
     );
 };

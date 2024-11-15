@@ -1,10 +1,9 @@
 import {ITag} from "@/types/tag.types";
 
 export interface INoteDTO {
-    token: string;
     title: string;
     description: string;
-    noteTags: INoteTags[]
+    noteTags: number[]
 }
 
 export interface INoteRes {
@@ -20,23 +19,15 @@ export interface RootResNotes{
     id: number;
     title: string;
     description: string;
-    isArchive: boolean;
-    authorId: number;
-    noteTags: NoteTag[];
-}
-
-export interface NoteTag {
-    noteId: number;
-    tagId: number;
-    tag: Tag;
+    is_archive: boolean;
+    user_id: number;
+    created_at: Date;
+    updated_at: Date;
+    tags: Tag[];
 }
 
 export interface Tag {
     id: number;
     name: string;
     color: string;
-}
-
-interface INoteTags {
-    tagId: number;
 }

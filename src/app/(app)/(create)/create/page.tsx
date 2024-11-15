@@ -8,6 +8,7 @@ import {ITag} from "@/types/tag.types";
 import {Api} from "@/service/api-client";
 import {useSnackbar} from "notistack";
 import {motion} from "framer-motion";
+import {useAnimateStore} from "@/store/animated.store";
 
 export default function Create() {
     const [tags, setTags] = useState<ITag[]>([])
@@ -16,6 +17,7 @@ export default function Create() {
     const [topic, setTopic] = useState<string>('')
     const [description, setDescription] = useState<string>('')
     const {enqueueSnackbar} = useSnackbar();
+    const {disabledAnimate} = useAnimateStore()
 
     async function handleSave() {
         const token = await localStorage.getItem("token") || '';
@@ -23,8 +25,9 @@ export default function Create() {
             enqueueSnackbar("Поля должны быть все заполнены!", {variant: "error"});
             return;
         }
-        await Api.note.create({token, description, title: topic, noteTags: testArray.map(tagId => ({tagId}))})
+        await Api.note.create({description, title: topic, noteTags: testArray.map(tagId => (tagId))}, token)
             .finally(() => enqueueSnackbar("Заметка сохранена!", {variant: "success"}))
+            .catch(() => enqueueSnackbar("Не удалось сохранить заметку!", {variant: "error"}))
         setTestArray([])
         setTopic('')
         setDescription('')
@@ -55,7 +58,7 @@ export default function Create() {
                 translateY: 0
             }}
             transition={{
-                duration: 0.4,
+                duration: disabledAnimate ? 0 : 0.4,
             }}
             className="flex flex-col w-full h-full items-center">
             <div className="flex items-center w-[470px]">

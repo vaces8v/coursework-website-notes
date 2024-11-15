@@ -7,6 +7,7 @@ import {useNotesStore} from "@/store/notes.store";
 import {useSortedNotesStore} from "@/store/sortedNotes.store";
 import {usePathname, useRouter} from "next/navigation";
 import {useTagFilterStore} from "@/store/tagFilter.store";
+import {useAnimateStore} from "@/store/animated.store";
 
 export const SearchInput = () => {
     const [isFocus, setIsFocus] = useState<boolean>(false)
@@ -16,6 +17,7 @@ export const SearchInput = () => {
     const path = usePathname()
     const router = useRouter()
     const {tagsFilter} = useTagFilterStore()
+    const {disabledAnimate} = useAnimateStore()
 
 
     useEffect(() => {
@@ -25,7 +27,7 @@ export const SearchInput = () => {
                 return note.title.toLowerCase().includes(searchText.toLowerCase()) || note.description.toLowerCase().includes(searchText.toLowerCase());
             } else {
                 const matchesSearchText = note.title.toLowerCase().includes(searchText.toLowerCase()) || note.description.toLowerCase().includes(searchText.toLowerCase());
-                const matchesTags = note.noteTags.some(tag => tagsFilter.includes(tag.tagId));
+                const matchesTags = note.tags.some(tag => tagsFilter.includes(tag.id));
                 return matchesSearchText && matchesTags;
             }
         });
@@ -44,6 +46,9 @@ export const SearchInput = () => {
                 animate={{
                     translateX: isFocus ? 0 : -30
                 }}
+                transition={{
+                    duration: disabledAnimate ? 0 : .25,
+                }}
                 className="absolute z-20 left-[10px] top-[7px]">
                 <Search size={24} className={"text-white"}/>
             </motion.span>
@@ -56,7 +61,7 @@ export const SearchInput = () => {
                     paddingLeft: isFocus ? "37px" : "10px",
                     paddingRight: isFocus ? "0px" : "32px",
                 }}
-                className="w-full transition-all text-[18px] text-white focus:text-white h-full border-2 border-white focus:border-white focus:placeholder:text-white placeholder:text-white outline-none rounded-xl bg-transparent"
+                className={`${disabledAnimate ? "" : "transition-all"} w-full  text-[18px] text-white focus:text-white h-full border-2 border-white focus:border-white focus:placeholder:text-white placeholder:text-white outline-none rounded-xl bg-transparent`}
                 type="text" placeholder="Искать заметку..."/>
             <motion.span
                 initial={{
@@ -64,6 +69,9 @@ export const SearchInput = () => {
                 }}
                 animate={{
                     translateX: isFocus ? 30 : 0
+                }}
+                transition={{
+                    duration: disabledAnimate ? 0 : .25,
                 }}
                 className="absolute z-20 right-[10px] top-[7px]">
                 <Search size={24} color={"#FFF"}/>

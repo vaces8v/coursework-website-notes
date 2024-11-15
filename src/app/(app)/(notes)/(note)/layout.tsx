@@ -11,6 +11,7 @@ import {ITag} from "@/types/tag.types";
 import {Api} from "@/service/api-client";
 import {Badge} from "@/components/ui/badge";
 import {useTagFilterStore} from "@/store/tagFilter.store";
+import {useAnimateStore} from "@/store/animated.store";
 
 export default function NoteLayout({
                                        children,
@@ -22,7 +23,8 @@ export default function NoteLayout({
         router = useRouter(),
         [tags, setTags] = useState<ITag[]>([]),
         [selectedTags, setSelectedTags] = useState<string>(''),
-        {setTagsFilter, tagsFilter} = useTagFilterStore()
+        {setTagsFilter, tagsFilter} = useTagFilterStore(),
+        {disabledAnimate} = useAnimateStore()
 
     const handleSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedTags(e.target.value);
@@ -35,6 +37,8 @@ export default function NoteLayout({
     useEffect(() => {
         Api.tag.getAll().then(data => setTags(data))
     }, [])
+
+
 
     return (
         <div
@@ -51,11 +55,15 @@ export default function NoteLayout({
                             scale: path !== '/' ? 1 : 0,
                             rotate: path !== '/' ? "0deg" : "45deg",
                         }}
+                        transition={{
+                            duration: disabledAnimate ? 0 : .25,
+                        }}
                         onClick={() => router.back()}
                         className="bg-transparent outline-none active:outline-none focus-visible:outline-[3px] focus-visible:outline-[#00bfff] focus-visible:outline-offset-[5px]">
-                        <ArrowLeft style={{scale: path !== '/' ? 1 : 0}} className="transition-all" size={32}
+                        <ArrowLeft style={{scale: path !== '/' ? 1 : 0}} className={`${disabledAnimate ? "" : "transition-all"}`} size={32}
                                    color="#FFF"/>
                     </motion.button>
+
                     <motion.h1
                         initial={{
                             marginLeft: 0,
@@ -64,6 +72,9 @@ export default function NoteLayout({
                         animate={{
                             marginLeft: path !== '/' ? 10 : 0,
                             translateX: path !== '/' ? 0 : -30
+                        }}
+                        transition={{
+                            duration: disabledAnimate ? 0 : 0.25
                         }}
                         className="text-white text-3xl">Заметки
                     </motion.h1>
@@ -79,6 +90,9 @@ export default function NoteLayout({
                             animate={{
                                 scale: path === "/" ? 1 : 0,
                                 display: path === "/" ? "flex" : "none",
+                            }}
+                            transition={{
+                                duration: disabledAnimate ? 0 : 0.25
                             }}
                         >
                             <motion.button
@@ -96,6 +110,9 @@ export default function NoteLayout({
                                     scale: tagsFilter.length > 0 ? 1 : 0,
                                     rotate: tagsFilter.length > 0 ? "0deg" : "360deg"
                                 }}
+                                transition={{
+                                    duration: disabledAnimate ? 0 : 0.25
+                                }}
                                 className="mt-[10px] mr-[10px] bg-transparent border-none rounded-full">
                                 <CircleX onClick={() => setSelectedTags('')} color="#FFF" size={24} strokeWidth={1.75}/>
                             </motion.button>
@@ -110,27 +127,29 @@ export default function NoteLayout({
                                 selectedKeys={selectedTags?.split(',')}
                                 onChange={handleSelectionChange}
                                 classNames={{
-                                    label: "group-data-[filled=true]:-translate-y-5",
-                                    trigger: "min-h-[30px] w-[300px] white-select text-white focus:border-white outline-white outline-offset-[-2px] border-white placeholder:text-white",
-                                    mainWrapper: "items-end border-white",
+                                    label: "group-data-[filled=true]:-translate-y-5 bg-transparent",
+                                    trigger: "flex justify-between items-center min-h-[30px] w-[300px] white-select focus:white-select bg-transparent text-white rounded-xl focus:border-white outline-none outline-offset-0 border-white placeholder:text-white",
+                                    mainWrapper: "items-end border-white focus:border-white bg-transparent rounded-xl",
                                     listboxWrapper: "max-h-[400px]",
-                                    value: "flex space-x-1 text-white border-white focus:text-white",
-                                    base: "text-white focus:text-white hover:text-white",
-                                    listbox: "text-white focus:text-white hover:text-white",
-                                    innerWrapper: "text-white focus:text-white hover:text-white border-white focus:border-white",
+                                    value: "flex space-x-1 text-white border-white focus:border-white focus:text-white",
+                                    base: "text-white focus:text-white hover:text-white bg-transparent rounded-xl focus:border-white",
+                                    listbox: "text-white focus:text-white hover:text-white bg-transparent rounded-xl",
+                                    innerWrapper: "text-white focus:text-white hover:text-white border-white focus:border-white bg-transparent",
                                 }}
                                 listboxProps={{
                                     itemClasses: {
                                         base: [
+                                            "focus:border-white",
+                                            "bg-transparent",
                                             "rounded-md",
                                             "text-white",
                                             "transition-opacity",
-                                            "data-[hover=true]:text-white",
+                                            "data-[hover=true]:text-white bg-transparent",
                                             "data-[hover=true]:bg-transparent",
                                             "dark:data-[hover=true]:bg-transparent",
                                             "dark:data-[hover=true]:border-white",
                                             "data-[selectable=true]:focus:bg-transparent",
-                                            "data-[selectable=true]:focus:border-white",
+                                            "data-[selectable=true]:focus:border-transparent",
                                             "data-[pressed=true]:opacity-70",
                                             "data-[focus-visible=true]:ring-white",
                                         ],
@@ -138,9 +157,9 @@ export default function NoteLayout({
                                 }}
                                 popoverProps={{
                                     classNames: {
-                                        base: "before:bg-white",
-                                        arrow: "text-white",
-                                        content: "p-0 border-small border-divider bg-[rgba(0,0,0,0.3)]",
+                                        base: "before:bg-transparent bg-transparent rounded-xl focus:border-white",
+                                        arrow: "text-[rgba(0,0,0,0)]",
+                                        content: "p-0 border-small border-divider bg-[rgba(255,255,255,0.1)] focus:border-white",
                                     },
                                 }}
                                 renderValue={(items) => {

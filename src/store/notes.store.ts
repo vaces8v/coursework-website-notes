@@ -6,7 +6,7 @@ interface notesState {
 }
 
 interface notesActions {
-    setNotes: (wallpaperState: RootResNotes[]) => void;
+    setNotes: (value: RootResNotes[]) => void;
 }
 
 const slice: StateCreator<notesState & notesActions> = (setState) => ({

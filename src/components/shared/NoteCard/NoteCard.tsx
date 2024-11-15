@@ -3,8 +3,9 @@ import React from 'react';
 import {Badge} from "@/components/ui/badge";
 import {PropsNoteCard} from "@/components/shared/NoteCard/NoteCard.interface";
 import {useRouter} from "next/navigation";
+import { format } from 'date-fns';
 
-export const NoteCard: React.FC<PropsNoteCard> = ({id, title, description, tags}) => {
+export const NoteCard: React.FC<PropsNoteCard> = ({id, title, description, tags, createDate}) => {
     const router = useRouter()
 
     return (
@@ -21,11 +22,11 @@ export const NoteCard: React.FC<PropsNoteCard> = ({id, title, description, tags}
                 </div>
                 <div className="flex justify-between items-end w-full mt-[10px]">
                     <div className="flex flex-col items-start">
-                        <h2 className="text-white text-2xl">Тема: {title.length > 40 ? title.slice(0, 40) + '...' : title }</h2>
-                        <p className="text-white text-lg">Описание: {description.length > 50 ? description.slice(0, 50) + '...' : description }</p>
+                        <h2 className="text-white text-2xl">Тема: {title.length > 40 ? title.slice(0, 30) + '...' : title }</h2>
+                        <p className="text-white text-lg">Описание: {description.length > 50 ? description.slice(0, 40) + '...' : description }</p>
                     </div>
                     <div className="flex flex-row">
-                        <p className="text-lg text-gray-200">Создано: 2024.11.02</p>
+                        <p className="text-lg text-gray-200">Создано: {format(createDate, "yyyy.MM.dd")} в {format(createDate, "HH:mm")}</p>
                     </div>
                 </div>
             </div>

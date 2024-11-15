@@ -2,9 +2,9 @@
 export interface IUser {
     id: number;
     name: string;
-    lastName: string;
+    last_name: string;
     email: string;
-    passwordHash: string;
+    password_hash: string;
 }
 
 export interface IResToken {
@@ -18,7 +18,7 @@ export interface LoginDTO {
 
 export interface RegisterDTO {
     name: string;
-    lastName: string;
+    last_name: string;
     email: string;
     password: string;
 }

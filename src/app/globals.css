@@ -15,6 +15,20 @@ body {
   animation: animation 20s ease infinite;
 }
 
+[data-slot="selectorIcon"] {
+  opacity: 0;
+  background-color: rgba(0,0,0,0);
+  color: rgba(0,0,0,0);
+}
+
+[data-slot="trigger"]:focus {
+  border: 2px solid white !important;
+}
+
+[data-slot="trigger"] {
+  border: 2px solid white !important;
+}
+
 @keyframes animation {
   0%,
   100% {

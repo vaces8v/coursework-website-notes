@@ -6,11 +6,13 @@ import {useSortedNotesStore} from "@/store/sortedNotes.store";
 import {useNotesStore} from "@/store/notes.store";
 import {Spinner} from "@nextui-org/spinner";
 import {NoteCard} from "@/components/shared/NoteCard/NoteCard";
+import {useAnimateStore} from "@/store/animated.store";
 
 export default function Home() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const { notes, setNotes } = useNotesStore();
     const { notesSorted, setNotesSorted } = useSortedNotesStore();
+    const {disabledAnimate} = useAnimateStore();
 
     useEffect(() => {
         const token = localStorage.getItem('token') || '';
@@ -27,19 +29,24 @@ export default function Home() {
         <>
             {
                 isLoading ? (
-                    <div className="flex flex-col w-full h-full items-center justify-center">
-                        <Spinner className="mr-[30px] mb-[100px]" label="Загрузка" size="lg" color="primary" />
+                    <div className="flex flex-col w-full h-full">
+                        <Spinner className="mx-auto mt-[200px]" label="Загрузка" size="lg" color="primary" />
                     </div>
                 ) : (
                     <>
                         {
                             notesSorted.length > 0 ? (
-                                <motion.div layout>
+                                <motion.div
+                                    layout
+                                    transition={{
+                                        duration: disabledAnimate ? 0 : .25,
+                                    }}
+                                >
                                     {notesSorted.map((note) => {
-                                        const tags = note.noteTags.map(tag => ({
-                                            id: tag.tag.id,
-                                            name: tag.tag.name,
-                                            color: tag.tag.color,
+                                        const tags = note.tags.map(tag => ({
+                                            id: tag.id,
+                                            name: tag.name,
+                                            color: tag.color,
                                         }));
 
                                         return (
@@ -49,16 +56,18 @@ export default function Home() {
                                                 initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
                                                 exit={{ opacity: 0, height: 0 }}
-                                                transition={{ duration: 0.3 }}
+                                                transition={{
+                                                    duration: disabledAnimate ? 0 : .3,
+                                                }}
                                             >
-                                                <NoteCard id={note.id} title={note.title} description={note.description} tags={tags} />
+                                                <NoteCard id={note.id} title={note.title} description={note.description} tags={tags} createDate={note.created_at} />
                                             </motion.div>
                                         );
-                                    }).reverse()}
+                                    })}
                                 </motion.div>
                             ) : (
-                                <div className="flex flex-col w-full h-full items-center justify-center">
-                                    <h1 className="text-white text-2xl mr-[30px] mb-[100px]">Нету заметок</h1>
+                                <div className="flex flex-col w-full h-full">
+                                    <h1 className="text-white text-2xl mx-auto mt-[200px]">Нету заметок</h1>
                                 </div>
                             )
                         }

@@ -15,7 +15,7 @@ export default function NotesLayout({
     return (
         <>
             {children}
-            <Button title="Создать заметку" onPress={() => router.push("/create")} onClick={() => router.push("/create")} isIconOnly variant="flat" size="lg" className="absolute right-[50px] bottom-[80px]">
+            <Button title="Создать заметку" onPress={() => router.push("/create")} onClick={() => router.push("/create")} isIconOnly variant="flat" size="lg" className="xl:right-[50px] right-[20px] absolute  bottom-[80px]">
                 <Pencil color="white" fontSize="large" size={24} strokeWidth={2}/>
             </Button>
         </>

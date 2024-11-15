@@ -8,7 +8,7 @@ import {Api} from "@/service/api-client";
 
 export default function Login() {
     const [nameUser, setNameUser] = useState<string>('')
-    const [lastName, setLastName] = useState<string>()
+    const [lastName, setLastName] = useState<string>('')
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const { enqueueSnackbar } = useSnackbar();
@@ -20,10 +20,16 @@ export default function Login() {
             enqueueSnackbar("Поля должны быть все заполнены!", {variant: "error"});
             return;
         }
-        await Api.user.register({email, password, name: nameUser, lastName})
-            .then((data) => localStorage.setItem("token", data.token))
-            .then(() => enqueueSnackbar("Успешный регистрация!", {variant: "success"}))
-            .finally(() => router.push("/"));
+        await Api.user.register({email, password, name: nameUser, last_name: lastName})
+            .then((data) => {
+                if(!data.token) {
+                    enqueueSnackbar("Пользователь с такой почтой уже зарегестрирован!", {variant: "error"});
+                    return
+                }
+                localStorage.setItem("token", data.token)
+                enqueueSnackbar("Успешный регистрация!", {variant: "success"})
+                router.push("/")
+            })
     }
 
     return (
