@@ -23,7 +23,7 @@ export const NoteCard: React.FC<PropsNoteCard> = ({id, title, description, tags,
                 <div className="flex justify-between items-end w-full mt-[10px]">
                     <div className="flex flex-col items-start">
                         <h2 className="text-white text-2xl">Тема: {title.length > 40 ? title.slice(0, 30) + '...' : title }</h2>
-                        <p className="text-white text-lg">Описание: {description.length > 50 ? description.slice(0, 40) + '...' : description }</p>
+                        <p className="text-white text-lg">Описание: {description.length > 50 ? description.slice(0, 30) + '...' : description }</p>
                     </div>
                     <div className="flex flex-row">
                         <p className="text-lg text-gray-200">Создано: {format(createDate, "yyyy.MM.dd")} в {format(createDate, "HH:mm")}</p>
