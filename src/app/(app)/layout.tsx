@@ -4,6 +4,7 @@ import {Menu} from "@/components/shared/Menu/Menu";
 import {useRouter} from "next/navigation";
 import {useEffect} from "react";
 import {useWallpaperStore} from "@/store/wallpaper.store";
+import {useTokenStore} from "@/store/token.store";
 
 export default function NotesLayout({
                                         children,
@@ -13,14 +14,18 @@ export default function NotesLayout({
 
     const router = useRouter();
     const {value} = useWallpaperStore()
+    const {token} = useTokenStore()
 
     useEffect(() => {
-        const token = localStorage.getItem("token") || '';
-        if(!token) {
-            router.push("/login");
+            if(!token) {
+                console.log(token)
+                router.push("/login");
         }
     }, []);
 
+    if(!token) {
+        return null;
+    }
 
     return (
         <main className={`flex flex-row justify-center transition-all w-full h-screen bg-cover ${value}`}>

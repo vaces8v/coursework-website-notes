@@ -9,6 +9,7 @@ import {Api} from "@/service/api-client";
 import {useSnackbar} from "notistack";
 import {motion} from "framer-motion";
 import {useAnimateStore} from "@/store/animated.store";
+import {useTokenStore} from "@/store/token.store";
 
 export default function Create() {
     const [tags, setTags] = useState<ITag[]>([])
@@ -18,19 +19,19 @@ export default function Create() {
     const [description, setDescription] = useState<string>('')
     const {enqueueSnackbar} = useSnackbar();
     const {disabledAnimate} = useAnimateStore()
+    const {token} = useTokenStore()
 
     async function handleSave() {
-        const token = await localStorage.getItem("token") || '';
-        if(!topic || !description) {
-            enqueueSnackbar("Поля должны быть все заполнены!", {variant: "error"});
-            return;
-        }
-        await Api.note.create({description, title: topic, noteTags: testArray.map(tagId => (tagId))}, token)
-            .finally(() => enqueueSnackbar("Заметка сохранена!", {variant: "success"}))
-            .catch(() => enqueueSnackbar("Не удалось сохранить заметку!", {variant: "error"}))
-        setTestArray([])
-        setTopic('')
-        setDescription('')
+            if(!topic || !description) {
+                enqueueSnackbar("Поля должны быть все заполнены!", {variant: "error"});
+                return;
+            }
+            await Api.note.create({description, title: topic, noteTags: testArray.map(tagId => (tagId))}, token)
+                .finally(() => enqueueSnackbar("Заметка сохранена!", {variant: "success"}))
+                .catch(() => enqueueSnackbar("Не удалось сохранить заметку!", {variant: "error"}))
+            setTestArray([])
+            setTopic('')
+            setDescription('')
     }
 
 

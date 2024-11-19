@@ -1,5 +1,6 @@
-'use client'
-import { motion } from "framer-motion";
+"use client"
+
+import {motion} from "framer-motion";
 import {useEffect, useState} from "react";
 import {Api} from "@/service/api-client";
 import {useSortedNotesStore} from "@/store/sortedNotes.store";
@@ -7,22 +8,23 @@ import {useNotesStore} from "@/store/notes.store";
 import {Spinner} from "@nextui-org/spinner";
 import {NoteCard} from "@/components/shared/NoteCard/NoteCard";
 import {useAnimateStore} from "@/store/animated.store";
+import {getAllMyArchives} from "@/service/notes";
 import {useTokenStore} from "@/store/token.store";
 
-export default function Home() {
+export default function Archive() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const { notes, setNotes } = useNotesStore();
-    const { notesSorted, setNotesSorted } = useSortedNotesStore();
+    const {notes, setNotes} = useNotesStore();
+    const {notesSorted, setNotesSorted} = useSortedNotesStore();
     const {disabledAnimate} = useAnimateStore();
     const {token} = useTokenStore()
 
     useEffect(() => {
-            Api.note.getAllMy(token)
-                .then(data => {
-                    setNotes(data);
-                    setNotesSorted(notes);
-                })
-                .finally(() => setIsLoading(false));
+        Api.note.getAllMyArchives(token)
+            .then((data) => {
+                setNotes(data);
+                setNotesSorted(data);
+            })
+            .finally(() => setIsLoading(false));
     }, []);
 
 
@@ -31,7 +33,7 @@ export default function Home() {
             {
                 isLoading ? (
                     <div className="flex flex-col w-full h-full">
-                        <Spinner className="mx-auto mt-[200px]" label="Загрузка" size="lg" color="primary" />
+                        <Spinner className="mx-auto mt-[200px]" label="Загрузка" size="lg" color="primary"/>
                     </div>
                 ) : (
                     <>
@@ -54,21 +56,23 @@ export default function Home() {
                                             <motion.div
                                                 key={note.id}
                                                 layout
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                exit={{ opacity: 0, height: 0 }}
+                                                initial={{opacity: 0}}
+                                                animate={{opacity: 1}}
+                                                exit={{opacity: 0, height: 0}}
                                                 transition={{
                                                     duration: disabledAnimate ? 0 : .3,
                                                 }}
                                             >
-                                                <NoteCard id={note.id} title={note.title} description={note.description} tags={tags} createDate={note.created_at} />
+                                                <NoteCard route="archives" id={note.id} title={note.title}
+                                                          description={note.description} tags={tags}
+                                                          createDate={note.created_at}/>
                                             </motion.div>
                                         );
                                     })}
                                 </motion.div>
                             ) : (
                                 <div className="flex flex-col w-full h-full">
-                                    <h1 className="text-white text-2xl mx-auto mt-[200px]">Нету заметок</h1>
+                                    <h1 className="text-white text-2xl mx-auto mt-[200px]">Нету заметок в архиве</h1>
                                 </div>
                             )
                         }

@@ -13,7 +13,7 @@ import {Badge} from "@/components/ui/badge";
 import {useTagFilterStore} from "@/store/tagFilter.store";
 import {useAnimateStore} from "@/store/animated.store";
 
-export default function NoteLayout({
+export default function ArchiveLayout({
                                        children,
                                    }: Readonly<{
     children: React.ReactNode;
@@ -25,7 +25,6 @@ export default function NoteLayout({
         [selectedTags, setSelectedTags] = useState<string>(''),
         {setTagsFilter, tagsFilter} = useTagFilterStore(),
         {disabledAnimate} = useAnimateStore()
-
 
     const handleSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedTags(e.target.value);
@@ -53,15 +52,15 @@ export default function NoteLayout({
                             rotate: "45deg",
                         }}
                         animate={{
-                            scale: path !== '/' ? 1 : 0,
-                            rotate: path !== '/' ? "0deg" : "45deg",
+                            scale: path !== '/archives' ? 1 : 0,
+                            rotate: path !== '/archives' ? "0deg" : "45deg",
                         }}
                         transition={{
                             duration: disabledAnimate ? 0 : .25,
                         }}
                         onClick={() => router.back()}
                         className="bg-transparent outline-none active:outline-none focus-visible:outline-[3px] focus-visible:outline-[#00bfff] focus-visible:outline-offset-[5px]">
-                        <ArrowLeft style={{scale: path !== '/' ? 1 : 0}} className={`${disabledAnimate ? "" : "transition-all"}`} size={32}
+                        <ArrowLeft style={{scale: path !== '/archives' ? 1 : 0}} className={`${disabledAnimate ? "" : "transition-all"}`} size={32}
                                    color="#FFF"/>
                     </motion.button>
 
@@ -71,13 +70,13 @@ export default function NoteLayout({
                             translateX: -30
                         }}
                         animate={{
-                            marginLeft: path !== '/' ? 10 : 0,
-                            translateX: path !== '/' ? 0 : -30
+                            marginLeft: path !== '/archives' ? 10 : 0,
+                            translateX: path !== '/archives' ? 0 : -30
                         }}
                         transition={{
                             duration: disabledAnimate ? 0 : 0.25
                         }}
-                        className="text-white text-3xl">Заметки
+                        className="text-white text-3xl">Архив
                     </motion.h1>
                 </div>
                 <div className="flex flex-row w-[580px] items-center justify-end space-x-3">
@@ -89,8 +88,8 @@ export default function NoteLayout({
                                 display: "none",
                             }}
                             animate={{
-                                scale: path === "/" ? 1 : 0,
-                                display: path === "/" ? "flex" : "none",
+                                scale: path === "/archives" ? 1 : 0,
+                                display: path === "/archives" ? "flex" : "none",
                             }}
                             transition={{
                                 duration: disabledAnimate ? 0 : 0.25
@@ -197,7 +196,7 @@ export default function NoteLayout({
                             </Select>
                         </motion.div>
                     </div>
-                    <SearchInput placeholder="Искать заметку..."/>
+                    <SearchInput route="archives" placeholder="Искать в архиве..."/>
                 </div>
             </header>
             <ScrollArea className="flex flex-col items-center mx-[2px] mt-[70px] mb-[5px] h-full">

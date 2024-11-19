@@ -12,14 +12,14 @@ import {Archive, ArchiveIcon, ArchiveRestore, ArchiveXIcon, FolderArchive, Trash
 import {Api} from "@/service/api-client";
 import {useTokenStore} from "@/store/token.store";
 
-export default function Notes({
+export default function Archives({
                                   params,
                               }: {
     params: Promise<{ id: string }>
 }) {
     const [note, setNote] = useState<RootResNotes | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const {enqueueSnackbar} = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
     const router = useRouter();
     const {id} = use(params);
     const {token} = useTokenStore()
@@ -27,24 +27,20 @@ export default function Notes({
     async function deleteNote() {
         await Api.note.deleteNote(Number(id), token).finally(() => {
             enqueueSnackbar("Запись успешно удалена", {variant: "success"});
-            router.push("/");
+            router.push("/archives");
         });
     }
 
-    async function addArchive() {
-        await Api.note.addToArchive(Number(id), token)
-            .catch(() => {
-                enqueueSnackbar("Ошибка добавления! Попробуйте еще раз.", {variant: "warning"});
-            })
-            .then((data) => {
-                enqueueSnackbar("Запись добавлена в архив", {variant: "success"});
-                router.push(`/archives/${id}`);
+    async function removeArchive() {
+            await Api.note.removeFromArchive(Number(id), token).finally(() => {
+                enqueueSnackbar("Запись удалена из архива", {variant: "success"});
+                router.push(`/note/${id}`);
             });
     }
 
     useEffect(() => {
         async function fetchNotes() {
-            const {data} = await axios.get<RootResNotes>(process.env.NEXT_PUBLIC_API + `/notes/${id}`)
+            const {data} = await axios.get<RootResNotes>( process.env.NEXT_PUBLIC_API + `/notes/${id}`)
             setNote(data)
         }
 
@@ -76,18 +72,12 @@ export default function Notes({
                                         <></>
                                     }
                                 </div>
-                                <div
-                                    className="flex xl:flex-nowrap flex-wrap xl:justify-start justify-end items-center space-x-1 space-y-0.5">
-                                    <Button onClick={deleteNote} variant="flat" color="danger" className="text-gray-200"
-                                            startContent={<Trash2Icon strokeWidth={1.75} size={20}
-                                                                      className="mr-[5px] min-w-[20px] text-gray-200"/>}>
+                                <div className="flex ml-[5px] xl:flex-nowrap flex-wrap xl:justify-start justify-end items-center space-x-1 space-y-0.5">
+                                    <Button onClick={deleteNote} variant="flat" color="danger" className="text-gray-200" startContent={<Trash2Icon strokeWidth={1.75} size={20} className="mr-[5px] min-w-[20px] text-gray-200"/>}>
                                         Удалить запись
                                     </Button>
-                                    <Button onClick={addArchive} variant="flat" color="default"
-                                            className="text-gray-200"
-                                            startContent={<ArchiveRestore strokeWidth={1.75} size={20}
-                                                                          className="mr-[5px] min-w-[20px] text-gray-200"/>}>
-                                        Добавить в архив
+                                    <Button onClick={removeArchive} variant="flat" color="default" className="text-gray-200" startContent={<ArchiveRestore strokeWidth={1.75} size={20} className="mr-[5px] min-w-[20px] text-gray-200"/>}>
+                                        Убрать из архива
                                     </Button>
                                 </div>
                             </div>
@@ -100,7 +90,7 @@ export default function Notes({
                             </h2>
                         </>
                     ) : (
-                        <div>Нет такой заметки</div>
+                        <div>Нет такой заметки в архиве</div>
                     )}
                 </>
             )}

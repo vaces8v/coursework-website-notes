@@ -8,8 +8,9 @@ import {useSortedNotesStore} from "@/store/sortedNotes.store";
 import {usePathname, useRouter} from "next/navigation";
 import {useTagFilterStore} from "@/store/tagFilter.store";
 import {useAnimateStore} from "@/store/animated.store";
+import {SearchInputProps} from "@/components/shared/SearchInput/SearchInput.interface";
 
-export const SearchInput = () => {
+export const SearchInput: React.FC<SearchInputProps> = ({placeholder, route = ""}) => {
     const [isFocus, setIsFocus] = useState<boolean>(false)
     const [searchText, setSearchText] = useState<string>('')
     const {notes} = useNotesStore()
@@ -21,7 +22,7 @@ export const SearchInput = () => {
 
 
     useEffect(() => {
-        if (path !== "/") router.push("/");
+        if (path !== `/${route}`) router.push( `/${route}`);
         const filteredNotes = notes.filter(note => {
             if (tagsFilter.length === 0) {
                 return note.title.toLowerCase().includes(searchText.toLowerCase()) || note.description.toLowerCase().includes(searchText.toLowerCase());
@@ -33,7 +34,6 @@ export const SearchInput = () => {
         });
         setNotesSorted(filteredNotes);
     }, [searchText, notes, setNotesSorted, tagsFilter]);
-
 
 
 
@@ -62,7 +62,7 @@ export const SearchInput = () => {
                     paddingRight: isFocus ? "0px" : "32px",
                 }}
                 className={`${disabledAnimate ? "" : "transition-all"} w-full  text-[18px] text-white focus:text-white h-full border-2 border-white focus:border-white focus:placeholder:text-white placeholder:text-white outline-none rounded-xl bg-transparent`}
-                type="text" placeholder="Искать заметку..."/>
+                type="text" placeholder={placeholder}/>
             <motion.span
                 initial={{
                     translateX: 0

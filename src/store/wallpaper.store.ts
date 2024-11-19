@@ -13,7 +13,7 @@ interface wallpaperActions {
 }
 
 const sliceWallpaper: StateCreator<wallpaperState & wallpaperActions, [["zustand/persist", unknown]]> = (setState) => ({
-    value: 'bg-coast',
+    value: 'bg-planet',
     changeWallpaper: (wallpaperState: valueWallpaper) => {
         setState({value: wallpaperState});
     }
