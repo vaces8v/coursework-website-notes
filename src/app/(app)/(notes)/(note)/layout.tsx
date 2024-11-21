@@ -201,10 +201,12 @@ export default function NoteLayout({
                 </div>
             </header>
             <ScrollArea className="flex flex-col items-center mx-[2px] mt-[70px] mb-[5px] h-full">
-                <section className="relative flex flex-col mx-[10px] w-[97%] h-full">
-                    {children}
-                </section>
+                <div className="relative flex flex-col w-[90%] h-full">
+                    <section className="relative flex flex-col mx-[10px] w-[97%] h-full">
+                        {children}
+                    </section>
+                </div>
             </ScrollArea>
         </div>
-    );
+);
 }
