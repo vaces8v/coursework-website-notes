@@ -59,7 +59,7 @@ export default function Archives({
                 <>
                     {note ? (
                         <>
-                            <div className="flex w-full items-center justify-between">
+                            <div className="flex w-[93%] items-center justify-between">
                                 <div className="flex flex-wrap w-[700px] items-center space-x-1 space-y-0.5">
                                     {note.tags && note.tags.length > 0 ? (
                                             note.tags.map(tag => (
