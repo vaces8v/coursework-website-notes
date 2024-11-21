@@ -63,7 +63,7 @@ export default function Notes({
                 <>
                     {note ? (
                         <>
-                            <div className="flex w-[93%] items-center justify-between">
+                            <div className="flex xl:w-[93%] w-[83%] items-center justify-between">
                                 <div className="flex flex-wrap w-[700px] items-center space-x-1 space-y-0.5">
                                     {note.tags && note.tags.length > 0 ? (
                                             note.tags.map(tag => (
@@ -92,10 +92,10 @@ export default function Notes({
                                 </div>
                             </div>
 
-                            <h1 className="text-white text-4xl w-[93%] mt-[20px]">
+                            <h1 className="text-white text-4xl xl:w-[93%] w-[83%] mt-[20px]">
                                 Тема: {note.title}
                             </h1>
-                            <h2 className="text-white text-2xl w-[93%] mt-[20px]">
+                            <h2 className="text-white text-2xl xl:w-[93%] w-[83%] mt-[20px]">
                                 Описание: {note.description}
                             </h2>
                         </>
