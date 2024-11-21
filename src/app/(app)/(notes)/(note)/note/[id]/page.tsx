@@ -92,10 +92,10 @@ export default function Notes({
                                 </div>
                             </div>
 
-                            <h1 className="text-white text-4xl mt-[20px]">
+                            <h1 className="text-white text-4xl w-[93%] mt-[20px]">
                                 Тема: {note.title}
                             </h1>
-                            <h2 className="text-white text-2xl mt-[20px]">
+                            <h2 className="text-white text-2xl w-[93%] mt-[20px]">
                                 Описание: {note.description}
                             </h2>
                         </>
