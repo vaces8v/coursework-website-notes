@@ -40,7 +40,7 @@ export default function Login() {
                 Вход
             </h3>
             <div className="ml-[10px] mt-[5px] flex items-center justify-center w-full">
-                <h2 className="text-3xl text-center text-white mr-2">Записаня Книжка</h2>
+                <h2 className="text-3xl text-center text-white mr-2">Записная Книжка</h2>
                 <Image src="/logo.png" draggable={false} width={38} height={38} alt="logo"/>
             </div>
             <form onSubmit={handleRegister} className="flex flex-col px-[30px] mt-[10px] w-full h-full">

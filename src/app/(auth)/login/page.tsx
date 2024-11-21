@@ -20,25 +20,27 @@ export default function Login() {
             enqueueSnackbar("Поля должны быть все заполнены!", {variant: "error"});
             return;
         }
-        await Api.user.login({email, password})
-            .then((data) => {
-                if (!data.token) {
-                    enqueueSnackbar("Неверный логин или пароль!", {variant: "error"});
-                    return
-                }
-                setToken(data.token)
-                enqueueSnackbar("Успешный вход!", {variant: "success"})
-                router.push("/")
-            })
+        try {
+            const data = await Api.user.login({email, password})
+            if (!data.token) {
+                enqueueSnackbar("Неверный логин или пароль!", {variant: "error"});
+                return
+            }
+            setToken(data.token)
+            enqueueSnackbar("Успешный вход!", {variant: "success"})
+            router.push("/")
+        } catch (e) {
+            enqueueSnackbar("Неверный логин или пароль!", {variant: "error"});
+        }
     }
 
     return (
         <>
-            <h3 className="text-white text-2xl text-center  w-full">
+            <h3 className="text-white text-2xl text-center w-full">
                 Вход
             </h3>
             <div className="ml-[10px] mt-[10px] flex items-center justify-center w-full">
-                <h2 className="text-3xl text-center text-white mr-2">Записаня Книжка</h2>
+                <h2 className="text-3xl text-center text-white mr-2">Записная Книжка</h2>
                 <Image src="/logo.png" draggable={false} width={38} height={38} alt="logo"/>
             </div>
             <form onSubmit={handleLogin} className="flex flex-col px-[30px] mt-[35px] w-full h-full">

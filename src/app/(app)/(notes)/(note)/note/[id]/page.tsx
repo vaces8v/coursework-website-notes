@@ -77,7 +77,7 @@ export default function Notes({
                                     }
                                 </div>
                                 <div
-                                    className="flex mr-[200px] xl:mr-[50px] xl:flex-nowrap flex-wrap xl:justify-start justify-end items-center space-x-1 space-y-0.5">
+                                    className="flex ml-[10px] xl:flex-nowrap flex-wrap xl:justify-start justify-end items-center space-x-1 space-y-0.5">
                                     <Button onClick={deleteNote} variant="flat" color="danger" className="text-gray-200"
                                             startContent={<Trash2Icon strokeWidth={1.75} size={20}
                                                                       className="mr-[5px] min-w-[20px] text-gray-200"/>}>

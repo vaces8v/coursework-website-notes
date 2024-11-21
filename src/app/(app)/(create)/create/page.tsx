@@ -131,8 +131,8 @@ export default function Create() {
                                 ],
                             },
                         }}
-                        aria-label="Выбирите тег"
-                        placeholder="Выбирите тег"
+                        aria-label="Выберите тег"
+                        placeholder="Выберите тег"
                         popoverProps={{
                             offset: 10,
                             classNames: {

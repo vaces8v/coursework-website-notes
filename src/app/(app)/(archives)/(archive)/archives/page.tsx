@@ -72,7 +72,7 @@ export default function Archive() {
                                 </motion.div>
                             ) : (
                                 <div className="flex flex-col w-full h-full">
-                                    <h1 className="text-white text-2xl mx-auto mt-[200px]">Нету заметок в архиве</h1>
+                                    <h1 className="text-white text-2xl mx-auto mt-[200px]">Нет заметок в архиве</h1>
                                 </div>
                             )
                         }

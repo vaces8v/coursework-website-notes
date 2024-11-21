@@ -2,7 +2,7 @@ import {create, StateCreator} from "zustand";
 import {persist} from "zustand/middleware";
 
 
-type valueWallpaper = 'bg-coast' | 'bg-darkForest' | 'bg-earthNight' | 'bg-forest' | 'bg-macos' | 'bg-orbit' | 'bg-planet' | 'bg-water' | 'bg-coast2'
+type valueWallpaper = 'coast' | 'coast2' | 'earthNight' | 'darkForest' | 'macos' | 'orbit' | 'planet' | 'water'
 
 interface wallpaperState {
     value: valueWallpaper;
@@ -13,7 +13,7 @@ interface wallpaperActions {
 }
 
 const sliceWallpaper: StateCreator<wallpaperState & wallpaperActions, [["zustand/persist", unknown]]> = (setState) => ({
-    value: 'bg-planet',
+    value: 'planet',
     changeWallpaper: (wallpaperState: valueWallpaper) => {
         setState({value: wallpaperState});
     }

@@ -28,7 +28,7 @@ export default function Setting() {
             <h2 className="text-2xl text-white">Выберите обои</h2>
             <div className="flex flex-row mt-[10px] items-center flex-wrap">
 
-                <button onClick={() => changeWallpaper("bg-coast")} className="mt-[5px] rounded-xl">
+                <button onClick={() => changeWallpaper("coast")} className="mt-[5px] rounded-xl">
                     <Image
                         draggable={false}
                         alt="bg"
@@ -38,7 +38,7 @@ export default function Setting() {
                         width={200}
                     />
                 </button>
-                <button onClick={() => changeWallpaper("bg-darkForest")} className="mt-[5px] ml-[10px] rounded-xl">
+                <button onClick={() => changeWallpaper("darkForest")} className="mt-[5px] ml-[10px] rounded-xl">
                     <Image
                         draggable={false}
                         alt="bg"
@@ -48,7 +48,7 @@ export default function Setting() {
                         width={200}
                     />
                 </button>
-                <button onClick={() => changeWallpaper("bg-earthNight")} className="mt-[5px] ml-[10px] rounded-xl">
+                <button onClick={() => changeWallpaper("earthNight")} className="mt-[5px] ml-[10px] rounded-xl">
                     <Image
                         draggable={false}
                         alt="bg"
@@ -58,7 +58,7 @@ export default function Setting() {
                         width={200}
                     />
                 </button>
-                <button onClick={() => changeWallpaper("bg-forest")} className="xl:ml-[10px] ml-[0px] mt-[5px] rounded-xl">
+                <button onClick={() => changeWallpaper("darkForest")} className="xl:ml-[10px] ml-[0px] mt-[5px] rounded-xl">
                     <Image
                         draggable={false}
                         alt="bg"
@@ -68,7 +68,7 @@ export default function Setting() {
                         width={200}
                     />
                 </button>
-                <button onClick={() => changeWallpaper("bg-water")} className="mt-[5px] xl:ml-0 ml-[10px] rounded-xl">
+                <button onClick={() => changeWallpaper("water")} className="mt-[5px] xl:ml-0 ml-[10px] rounded-xl">
                     <Image
                         draggable={false}
                         alt="bg"
@@ -78,7 +78,7 @@ export default function Setting() {
                         width={200}
                     />
                 </button>
-                <button onClick={() => changeWallpaper("bg-coast2")} className="mt-[5px] ml-[10px] rounded-xl">
+                <button onClick={() => changeWallpaper("coast2")} className="mt-[5px] ml-[10px] rounded-xl">
                     <Image
                         draggable={false}
                         alt="bg"
@@ -88,7 +88,7 @@ export default function Setting() {
                         width={200}
                     />
                 </button>
-                <button onClick={() => changeWallpaper("bg-planet")} className="xl:ml-[10px] ml-[0px] mt-[5px] rounded-xl">
+                <button onClick={() => changeWallpaper("planet")} className="xl:ml-[10px] ml-[0px] mt-[5px] rounded-xl">
                     <Image
                         draggable={false}
                         alt="bg"

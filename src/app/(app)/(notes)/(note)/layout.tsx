@@ -120,7 +120,7 @@ export default function NoteLayout({
 
                             <Select
                                 items={tags}
-                                placeholder="Фильтер тегов"
+                                placeholder="Фильтр тегов"
                                 aria-label="filter-tag"
                                 selectionMode="multiple"
                                 variant="bordered"
