@@ -5,7 +5,7 @@ export const getAllMy = async (token: string): Promise<RootResNotes[]> => {
     const { data } = await axiosInstance.get<RootResNotes[]>("/notes/", {
         headers: { Authorization: `Bearer ${token}`},
     });
-    return (await data);
+    return data;
 }
 
 export const getAllMyArchives = async (token: string): Promise<RootResNotes[]> => {
@@ -40,15 +40,16 @@ export const update = async (noteId: number, body: INoteUpdateDTO, token: string
     }
 };
 
-export const exportToExcel = async (token: string): Promise<Blob> => {
+export const exportToExcel = async (token: string): Promise<void> => {
     try {
-        const {data} = await axiosInstance.get("/notes/export/excel", {
-            headers: { 
+        const { data } = await axiosInstance.get<Blob>("/notes/export/excel", {
+            headers: {
                 Authorization: `Bearer ${token}`,
             },
-            responseType: 'blob'
+            responseType: 'blob',
         });
-        const url = window["URL"].createObjectURL(new Blob([data]));
+
+        const url = window["URL"].createObjectURL(data);
         const link = document.createElement('a');
         link.href = url;
         link.setAttribute('download', `notes_export_${new Date().toISOString()}.xlsx`);

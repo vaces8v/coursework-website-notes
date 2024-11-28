@@ -84,8 +84,8 @@ export default function Notes({
                     tags: selectedTags
                 }, token);
 
-                const {data} = await Api.note.getAllMy(token)
-                setNote(data);
+                const data = await Api.note.getAllMy(token)
+                setNote(data.find(note => note.id === Number(id)) || null);
                 setIsEditing(false);
                 enqueueSnackbar("Заметка успешно обновлена", {variant: "success"});
                 router.back()
@@ -118,12 +118,7 @@ export default function Notes({
                 ]);
                 setNote(noteResponse as RootResNotes);
                 setTags(tagsResponse as ITag[]);
-                setTagId(tags.map(item => item.id) | undefined)
-                if ("tags" in noteResponse) {
-                    setTestArray(noteResponse.tags.map(tag => tag.id));
-                } else {
-                    setTestArray([]);
-                }
+                setTagId(tags.length > 0 ? tags[0].id : undefined);
             } catch (error) {
                 enqueueSnackbar("Ошибка при загрузке данных!", {variant: "error"});
             } finally {
