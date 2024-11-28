@@ -2,7 +2,7 @@ import {create, StateCreator} from "zustand";
 import {persist} from "zustand/middleware";
 
 
-type valueWallpaper = 'coast' | 'coast2' | 'earthNight' | 'darkForest' | 'macos' | 'orbit' | 'planet' | 'water'
+type valueWallpaper = 'coast' | 'coast2' | 'earthNight' | 'darkForest' | 'macos' | 'orbit' | 'planet' | 'water' | 'forest'
 
 interface wallpaperState {
     value: valueWallpaper;

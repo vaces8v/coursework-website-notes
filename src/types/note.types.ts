@@ -6,6 +6,12 @@ export interface INoteDTO {
     noteTags: number[]
 }
 
+export interface INoteUpdateDTO {
+    title: string;
+    description: string;
+    tags: number[]
+}
+
 export interface INoteRes {
     id: number;
     title: string;

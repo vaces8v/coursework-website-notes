@@ -36,8 +36,8 @@ export default function Login() {
 
     return (
         <>
-            <h3 className="text-white text-2xl text-center  w-full">
-                Вход
+            <h3 className="text-white text-2xl text-center w-full">
+               Регистрация
             </h3>
             <div className="ml-[10px] mt-[5px] flex items-center justify-center w-full">
                 <h2 className="text-3xl text-center text-white mr-2">Записная Книжка</h2>

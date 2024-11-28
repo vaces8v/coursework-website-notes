@@ -6,5 +6,6 @@ export interface PropsNoteCard {
     description: string;
     tags: Tag[];
     createDate: Date;
+    updateDate: Date;
     route?: string;
 }

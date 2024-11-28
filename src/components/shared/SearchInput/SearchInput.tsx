@@ -44,7 +44,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({placeholder, route = ""
                     translateX: -30
                 }}
                 animate={{
-                    translateX: isFocus ? 0 : -30
+                    translateX: isFocus ? 0 : -35
                 }}
                 transition={{
                     duration: disabledAnimate ? 0 : .25,
@@ -68,7 +68,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({placeholder, route = ""
                     translateX: 0
                 }}
                 animate={{
-                    translateX: isFocus ? 30 : 0
+                    translateX: isFocus ? 35 : 0
                 }}
                 transition={{
                     duration: disabledAnimate ? 0 : .25,

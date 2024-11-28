@@ -65,6 +65,7 @@ export default function Archive() {
                                             >
                                                 <NoteCard route="archives" id={note.id} title={note.title}
                                                           description={note.description} tags={tags}
+                                                          updateDate={note.updated_at}
                                                           createDate={note.created_at}/>
                                             </motion.div>
                                         );

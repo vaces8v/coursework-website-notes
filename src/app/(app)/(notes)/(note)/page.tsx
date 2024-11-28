@@ -61,7 +61,7 @@ export default function Home() {
                                                     duration: disabledAnimate ? 0 : .3,
                                                 }}
                                             >
-                                                <NoteCard id={note.id} title={note.title} description={note.description} tags={tags} createDate={note.created_at} />
+                                                <NoteCard id={note.id} title={note.title} description={note.description} tags={tags} createDate={note.created_at} updateDate={note.updated_at} />
                                             </motion.div>
                                         );
                                     })}

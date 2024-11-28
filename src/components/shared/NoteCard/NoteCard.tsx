@@ -5,11 +5,11 @@ import {PropsNoteCard} from "@/components/shared/NoteCard/NoteCard.interface";
 import {useRouter} from "next/navigation";
 import { format } from 'date-fns';
 
-export const NoteCard: React.FC<PropsNoteCard> = ({id, title, description, tags, createDate, route ="note"}) => {
+export const NoteCard: React.FC<PropsNoteCard> = ({id, title, description, tags, createDate, route ="note", updateDate}) => {
     const router = useRouter()
 
     return (
-        <button onClick={() => router.push(process.env.NEXT_PUBLIC_DOMAIN + `${route}/${id}`)} className="w-full h-auto py-[10px] outline-none active:outline-none focus-visible:outline-[3px] focus-visible:outline-[#00bfff] focus-visible:outline-offset-[5px] bg-transparent my-[10px] overflow-hidden shrink-0 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-100 bordear-none border-1 border-gray-100/50">
+        <button onClick={() => router.push(process.env.NEXT_PUBLIC_DOMAIN + `/${route}/${id}`)} className="w-full h-auto py-[10px] outline-none active:outline-none focus-visible:outline-[3px] focus-visible:outline-[#00bfff] focus-visible:outline-offset-[5px] bg-transparent my-[10px] overflow-hidden shrink-0 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-100 bordear-none border-1 border-gray-100/50">
             <div className="flex flex-col items-start mx-[10px]">
                 <div className="flex flex-wrap space-x-1 space-y-0.5">
                     {
@@ -22,11 +22,16 @@ export const NoteCard: React.FC<PropsNoteCard> = ({id, title, description, tags,
                 </div>
                 <div className="flex justify-between items-end w-full mt-[10px]">
                     <div className="flex flex-col items-start">
-                        <h2 className="text-white text-2xl">Тема: {title.length > 40 ? title.slice(0, 30) + '...' : title }</h2>
-                        <p className="text-white text-lg">Описание: {description.length > 50 ? description.slice(0, 30) + '...' : description }</p>
+                        <h2 className="text-white text-2xl">Тема: {title.length > 25 ? title.slice(0, 25) + '...' : title }</h2>
+                        <p className="text-white text-lg">Описание: {description.length > 30 ? description.slice(0, 30) + '...' : description }</p>
                     </div>
                     <div className="flex flex-row">
-                        <p className="text-lg text-gray-200">Создано: {format(createDate, "yyyy.MM.dd")} в {format(createDate, "HH:mm")}</p>
+                        <p className="text-lg text-gray-200">{
+                            createDate == updateDate ?
+                                <>Создано: {format(createDate, "yyyy.MM.dd")} в {format(createDate, "HH:mm")}</>
+                                :
+                                <>Обновлено: {format(updateDate, "yyyy.MM.dd")} в {format(updateDate, "HH:mm")}</>
+                        }</p>
                     </div>
                 </div>
             </div>

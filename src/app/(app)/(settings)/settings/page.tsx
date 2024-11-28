@@ -58,7 +58,7 @@ export default function Setting() {
                         width={200}
                     />
                 </button>
-                <button onClick={() => changeWallpaper("darkForest")} className="xl:ml-[10px] ml-[0px] mt-[5px] rounded-xl">
+                <button onClick={() => changeWallpaper("forest")} className="xl:ml-[10px] ml-[0px] mt-[5px] rounded-xl">
                     <Image
                         draggable={false}
                         alt="bg"
