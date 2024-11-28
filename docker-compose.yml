@@ -1,11 +1,13 @@
 version: '3.8'
 
 services:
-  nextjs:
-    build: .
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - 3000:3000
-    volumes:
-      - ./:/app
+      - '3000:3000'
     environment:
-      - NODE_ENV=production
+      - NEXT_PUBLIC_API=https://cwnotes.store/api
+      - NEXT_PUBLIC_DOMAIN=https://cwnotes.ru
+    restart: unless-stopped
