@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {Avatar} from "@nextui-org/avatar";
 import {motion} from "framer-motion";
 import {ItemMenu} from "@/components/shared/Menu/ItemMenu";
-import {Archive, BellRing, NotebookPen, Pencil, Settings} from "lucide-react";
+import {Archive, NotebookPen, Pencil, Settings, Tags} from "lucide-react";
 import {IUser} from "@/types/user.types";
 import {Api} from "@/service/api-client";
 import {useAnimateStore} from "@/store/animated.store";
@@ -53,9 +53,16 @@ export const Menu: React.FC = () => {
                 <ItemMenu route="create" className="mt-[20px]"
                           icon={<Pencil color="#FFF" className="min-w-[40px]" strokeWidth={1.25} size={36}/>}
                           children={"Создать заметку"} isOpen={isOpen}/>
+                {
+                    user?.is_admin &&
+                    <ItemMenu route="tags" className="mt-[20px]"
+                              icon={<Tags color="#FFF" className="min-w-[40px]" strokeWidth={1.25} size={40}/>}
+                              children={"Создание тегов"} isOpen={isOpen}/>
+                }
                 <ItemMenu route="settings" className="absolute bottom-[20px]"
                           icon={<Settings color="#FFF" className="min-w-[40px]" strokeWidth={1.25} size={40}/>}
                           children={"Настройки"} isOpen={isOpen}/>
+
             </div>
 
         </motion.nav>

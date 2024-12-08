@@ -2,6 +2,7 @@
 export interface IUser {
     id: number;
     name: string;
+    is_admin: boolean;
     last_name: string;
     email: string;
     password_hash: string;
