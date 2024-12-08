@@ -3,12 +3,12 @@ import {axiosInstance} from "@/service/instance";
 import axios from "axios";
 
 export const login = async (body: LoginDTO): Promise<IResToken> => {
-    const {data} = await axiosInstance.post<IResToken>("/users/login", body);
+    const {data} = await axiosInstance.post<IResToken>("/users/login/", body);
     return (await data);
 }
 
 export const register = async (body: RegisterDTO): Promise<IResToken> => {
-    const {data} = await axiosInstance.post<IResToken>("/users", body);
+    const {data} = await axiosInstance.post<IResToken>("/users/", body);
     return (await data);
 }
 

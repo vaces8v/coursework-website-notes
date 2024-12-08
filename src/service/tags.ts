@@ -12,7 +12,7 @@ interface ReqTagCreate {
 
 
 export const getAll = async (): Promise<ITag[]> => {
-    const {data} = await axiosInstance.get<ITag[]>("/tags");
+    const {data} = await axiosInstance.get<ITag[]>("/tags/");
     return (await data);
 }
 
@@ -26,7 +26,7 @@ export const createTag = async (body: ReqTagCreate, token: string) => {
 };
 
 export const removeTag = async (tag_id: number, token: string) => {
-    const {data} = await axiosInstance.delete<ResTagDelete>(`/tags/${tag_id}`, {
+    const {data} = await axiosInstance.delete<ResTagDelete>(`/tags/${tag_id}/`, {
         headers: {
             "Authorization": `Bearer ${token}`
         }

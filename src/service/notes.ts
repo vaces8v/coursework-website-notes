@@ -9,7 +9,7 @@ export const getAllMy = async (token: string): Promise<RootResNotes[]> => {
 }
 
 export const getAllMyArchives = async (token: string): Promise<RootResNotes[]> => {
-    const { data } = await axiosInstance.get<RootResNotes[]>("/notes/archives", {
+    const { data } = await axiosInstance.get<RootResNotes[]>("/notes/archives/", {
         headers: { Authorization: `Bearer ${token}`},
     });
     return (await data);
@@ -18,7 +18,7 @@ export const getAllMyArchives = async (token: string): Promise<RootResNotes[]> =
 
 export const create = async (body: INoteDTO, token: string): Promise<INoteRes> => {
     try {
-        const {data} = await axiosInstance.post<INoteRes>("/notes", body, {
+        const {data} = await axiosInstance.post<INoteRes>("/notes/", body, {
             headers: { Authorization: `Bearer ${token}`},
         });
         return data;
@@ -30,7 +30,7 @@ export const create = async (body: INoteDTO, token: string): Promise<INoteRes> =
 
 export const update = async (noteId: number, body: INoteUpdateDTO, token: string): Promise<INoteRes> => {
     try {
-        const {data} = await axiosInstance.put<INoteRes>(`/notes/${noteId}`, body, {
+        const {data} = await axiosInstance.put<INoteRes>(`/notes/${noteId}/`, body, {
             headers: { Authorization: `Bearer ${token}`},
         });
         return data;
@@ -65,7 +65,7 @@ export const exportToExcel = async (token: string): Promise<void> => {
 
 export const deleteNote = async (note_id: number, token: string) => {
     try {
-        const {data} = await axiosInstance.delete(`/notes/${note_id}`, {
+        const {data} = await axiosInstance.delete(`/notes/${note_id}/`, {
             headers:{
                 Authorization: `Bearer ${token}`,
             }
@@ -78,7 +78,7 @@ export const deleteNote = async (note_id: number, token: string) => {
 
 export const addToArchive = async (note_id: number, token: string) => {
     try {
-        const {data} = await axiosInstance.patch(`/notes/archive/add/${note_id}`, {}, {
+        const {data} = await axiosInstance.patch(`/notes/archive/add/${note_id}/`, {}, {
             headers:{
                 Authorization: `Bearer ${token}`,
             }
@@ -92,7 +92,7 @@ export const addToArchive = async (note_id: number, token: string) => {
 
 export const removeFromArchive = async (note_id: number, token: string) => {
     try {
-        const {data} = await axiosInstance.patch(`/notes/archive/remove/${note_id}`,{}, {
+        const {data} = await axiosInstance.patch(`/notes/archive/remove/${note_id}/`,{}, {
             headers:{
                 Authorization: `Bearer ${token}`,
             }
